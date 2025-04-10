@@ -1,0 +1,35 @@
+vlan 10
+name GV
+vlan 20
+name SV
+vlan 30
+name NV
+int range f0/1-8
+switchport access vlan 10
+int range f0/9-16
+switchport access vlan 20
+int range f0/17-24
+switchport access vlan 30
+------------------------
+int g0/1
+switchport access vlan 10
+int g0/2
+switchport mode trunk
+-----------------------
+int g0/1
+switchport mode trunk
+int g0/2
+switchport mode trunk
+-----------------------
+int f0/0.10
+encapsulation dot1Q 10
+ip add 192.168.10.1 255.255.255.0
+int f0/0.20
+encapsulation dot1Q 20
+ip add 192.168.20.1 255.255.255.0
+int f0/0.30
+encapsulation dot1Q 10
+ip add 192.168.30.1 255.255.255.0
+exit
+int f0/0
+no shutdown

@@ -1,0 +1,108 @@
+VÀO ROUTER EN CONF T RỒI PASTE LÀ XONG
+!!!CHÚ Ý CÁC CỔNG SERIAL ĐẦU BÀI CÓ THỂ THAY ĐỔI
+
+int f0/0
+ip address 192.168.11.1 255.255.255.0
+no shut
+exit
+int serial0/0/0
+ip address 192.168.12.1 255.255.255.0
+no shut
+exit
+ho BN
+ip dhcp pool BN
+network 192.168.11.0 255.255.255.0
+default-router 192.168.11.1
+dns-server 8.8.8.8
+
+ip dhcp excluded-address 8.8.8.8
+router ospf 1 
+network 192.168.11.0 0.0.0.255 area 0
+network 192.168.12.0 0.0.0.255 area 0
+--------------------------------
+int f0/0
+ip address 192.168.13.1 255.255.255.0
+no shut
+exit
+int serial0/0/1
+ip address 192.168.14.2 255.255.255.0
+no shut
+exit
+ho HB
+ip dhcp pool HB
+network 192.168.13.0 255.255.255.0
+default-router 192.168.13.1
+dns-server 8.8.8.8
+
+ip dhcp excluded-address 8.8.8.8
+router ospf 1 
+network 192.168.13.0 0.0.0.255 area 0
+network 192.168.14.0 0.0.0.255 area 0
+-------------------------------------
+int f0/0
+ip address 192.168.15.1 255.255.255.0
+no shut
+exit
+int serial0/0/0
+ip address 192.168.12.2 255.255.255.0
+no shut
+int serial0/0/1
+ip address 192.168.14.1 255.255.255.0
+no shut
+int serial0/1/0
+ip address 192.168.16.1 255.255.255.0
+no shut
+exit
+ho DN
+ip dhcp pool DN
+network 192.168.15.0 255.255.255.0
+default-router 192.168.15.1
+dns-server 8.8.8.8
+
+ip dhcp excluded-address 8.8.8.8
+router ospf 1 
+network 192.168.14.0 0.0.0.255 area 0
+network 192.168.15.0 0.0.0.255 area 0
+network 192.168.12.0 0.0.0.255 area 0
+network 192.168.16.0 0.0.0.255 area 0
+--------------------------------
+int f0/0
+ip address 192.168.17.1 255.255.255.0
+no shut
+int serial0/1/0
+ip address 192.168.16.2 255.255.255.0
+no shut
+exit
+ho CT
+ip dhcp pool CT
+network 192.168.17.0 255.255.255.0
+default-router 192.168.17.1
+dns-server 8.8.8.8
+
+ip dhcp excluded-address 8.8.8.8
+router ospf 1
+network 192.168.17.0 0.0.0.255 area 0
+network 192.168.16.0 0.0.0.255 area 0
+---------------------------------
+
+
+--------------------------------------------
+đoạn cuối kết nối 2 vùng
+nối dây mạng vào 2 bên router rồi cấu hình vật lý gán cho nó cái ip (vd 192.168.18.1 ở dưới)
+router của vùng mạng OSPF
+vô router ospf
+exit
+router ospf 1
+network 192.168.18.0 0.0.0.255 area 0
+redistribute rip subnets
+------
+router của vùng mạng RIP
+vô router cuối config
+exit
+router ospf 1
+network 192.168.18.0 0.0.0.255 area 0
+redistribute rip subnets
+exit
+router rip
+redistribute ospf 1 metric 1
+

@@ -1,0 +1,89 @@
+VÀO ROUTER EN CONF T RỒI PASTE LÀ XONG
+!!!CHÚ Ý CÁC CỔNG SERIAL ĐẦU BÀI CÓ THỂ THAY ĐỔI
+
+
+int f0/0
+ip address 192.168.1.1 255.255.255.0
+no shut
+exit
+int serial0/0/0
+ip address 192.168.2.1 255.255.255.0
+no shut
+exit
+ho HN
+ip dhcp pool HN
+network 192.168.1.0 255.255.255.0
+default-router 192.168.1.1
+dns-server 8.8.8.8
+
+ip dhcp excluded-address 8.8.8.8
+router rip 
+network 192.168.1.0
+network 192.168.2.0
+--------------------------------
+
+int f0/0
+ip address 192.168.3.1 255.255.255.0
+no shut
+exit
+int serial0/0/1
+ip address 192.168.4.2 255.255.255.0
+no shut
+exit
+ho CT
+ip dhcp pool CT
+network 192.168.3.0 255.255.255.0
+default-router 192.168.3.1
+dns-server 8.8.8.8
+
+ip dhcp excluded-address 8.8.8.8
+router rip 
+network 192.168.3.0
+network 192.168.4.0
+--------------------------------
+int f0/0
+ip address 192.168.5.1 255.255.255.0
+no shut
+exit
+int serial0/0/0
+ip address 192.168.2.2 255.255.255.0
+no shut
+int serial0/0/1
+ip address 192.168.4.1 255.255.255.0
+no shut
+int serial0/1/0
+ip address 192.168.6.1 255.255.255.0
+no shut
+exit
+ho HUE
+ip dhcp pool HUE
+network 192.168.5.0 255.255.255.0
+default-router 192.168.5.1
+dns-server 8.8.8.8
+
+ip dhcp excluded-address 8.8.8.8
+router rip 
+network 192.168.4.0
+network 192.168.5.0
+network 192.168.2.0
+network 192.168.6.0
+---------------------------------
+int f0/0
+ip address 192.168.7.1 255.255.255.0
+no shut
+int serial0/1/0
+ip address 192.168.6.2 255.255.255.0
+no shut
+exit
+ho SG
+ip dhcp pool SG
+network 192.168.7.0 255.255.255.0
+default-router 192.168.7.1
+dns-server 8.8.8.8
+
+ip dhcp excluded-address 8.8.8.8
+router rip 
+network 192.168.7.0
+network 192.168.6.0
+
+
